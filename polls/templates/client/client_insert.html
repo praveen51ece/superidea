@@ -1,0 +1,44 @@
+<html>
+<head>
+<meta name="csrf_token" content="{{ csrf_token }}">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="/static/assets/admin/pages/scripts/components-pickers.js"></script>
+
+<script type="text/javascript">
+
+$(document).ready(function() {
+  $('.in').on('input',function() {
+    var allvals = $('.in').map(function() { return this.value; }).get().join('  ');
+    $('.out').val( allvals );
+  });
+
+});
+
+</script>
+
+<script>
+	function submit()() {
+		document.getElementById("demo").innerHTML = "Successfull";
+		}
+</script>
+
+</head>
+<body bgcolor="pink">
+	<form name="myform" action="{% url 'client_insert' %}" method="POST">
+		
+	{% csrf_token %}
+	 <center>
+	 	<h2> Enter Clients Details</h2><br><br>
+	 	Frist Name :<input class="in" type="text" maxlength="20" id="i1"/>&nbsp;
+	 	Last Name :<input class="in" type="text" maxlength="20" id="i2"/><br>
+
+		Name :<input type="text" name="c_name" class="out" id="i4" required/><br>
+		Mobile :<input type="text" name="c_mobile" required/><br>
+		Phone :<input type="text" name="c_phone" required/><br>
+		Address :<input type="text" name="c_address" required/><br>
+		<input type="submit" value="submit" onclick="submit()"/>
+		<p id="demo"></p>
+	 </center>
+</form>
+</body>
+</html>

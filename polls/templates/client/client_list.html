@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/css/jquery.dataTables_themeroller.css">
+
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.0/jquery.dataTables.min.js"></script>
+
+   
+
+    <style media="screen">
+        a:hover {
+            background-color: yellow;
+        }
+        
+        h2 {
+            color: green;
+        }
+        
+        .drop {
+            position: absolute;
+            width: 3;
+            filter: flipV(), flipH();
+            font-size: 40;
+            color: blue
+        }
+
+        .table_design {
+            background: #FFFFFF; /* #FAFAFA */
+            width:70%;
+            position: relative; 
+            margin:-13px auto 0 auto;
+            padding: 2px 0px 0px 0px;   
+            border-bottom:2px solid #CC0000;
+            box-shadow: 0px 4px 5px #AAAAAA;
+            font-size:14px;
+            font-family: 'Lato Regular', Arial;
+            text-transform:uppercase;
+            text-align:center;
+            }
+    </style>
+    <script type="text/javascript">
+        function Hideclient(id) {
+            console.log("outside");
+            Dajaxice.polls.hide_lead(DeleteTravellerCallBack,{'id':id});
+            console.log("inside");
+        }
+        function Unhideclient(id) {
+            Dajaxice.polls.unhide_lead(DeleteTravellerCallBack,{'id':id});
+        }
+        function DeleteTravellerCallBack (data) {
+            // if data{
+
+                window.location.reload()
+            // }
+        }
+    </script>
+
+
+
+    <title> Client Lists </title>
+    <br><br>
+</head>
+
+<body bgcolor="#F0D1EB" >
+<div  class="table_design">
+    <center>
+        <h2>Client Lists </h2>
+        <form method="get" id="serchform">
+                                    <div class="row">                                   
+                                        <div class="col-md-4">
+                                                <input class="form-control" placeholder="Search Traveller" name="search" value=""/>
+                                                
+                                                
+                                        </div>
+                                        <div class="col-md-5">
+                                            
+                                            <button class="btn btn-default">Search</button>
+                                        </div>
+                                        <div class="col-md-3">
+                                            {% if not 'view_hidden' in request.GET %} 
+                                                <a class="btn btn-primary" href=".?view_hidden=true">View hidden leads</a>
+                                             {% else %} 
+                                                <a class="btn btn-primary" href=".">View leads</a>
+                                             {% endif %}
+                                        </div>
+                                    </div>
+                                </form>
+
+        <table  id="exampleTable">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Name</th>
+                    <th>Mobile</th>
+                    <th>Phone</th>
+                    <th>Address</th>
+                    <th>Action Icon</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for clients in clients %}
+                <tr>
+                    <td>{{forloop.counter0}}</td>
+                    <td> <a href="{% url 'client_details' clients.id %}">{{ clients.name }}</a> </td>
+                    <td>{{ clients.mobile }}</td>
+                    <td>{{ clients.phone}}</td>
+                    <td>{{ clients.address}}</td>
+                    <td> 
+                     {% if not 'view_hidden' in request.GET %}                                            
+                                             
+
+                        <a  href="javascript:Hideclient({{clients.id}});" title="Hide client from dashboard">hide</a>
+                     {% else %}
+                        <a onclick="Unhideclient({{clients.id}})" title="Unhide client from  dashboard">unhide</a>
+                     {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'client_insert' %}">Add</a> <br><br>
+    </center>
+    </div>
+</body>
+
+</html>
